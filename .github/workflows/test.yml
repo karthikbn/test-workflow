@@ -62,8 +62,8 @@ jobs:
            #to fetch last run
            run_identifier = ''.join(random.choices(string.ascii_uppercase + string.digits, k=15))
            print(run_identifier)
-           # filter runs that were created after this date minus 1 minutes
-           delta_time = datetime.timedelta(minutes=1)
+           # filter runs that were created after this date minus 5 minutes
+           delta_time = datetime.timedelta(minutes=3)
            run_date_filter = (datetime.datetime.utcnow()-delta_time).strftime("%Y-%m-%dT%H:%M")
 
            url = "https://api.github.com/repos/karthikbn/deploy-scripts/actions/workflows/blank.yml/dispatches"
@@ -84,48 +84,47 @@ jobs:
 
            response = requests.post(url, headers=headers, data=payload)
            print(f"dispatch workflow status: {response.status_code} | workflow identifier: {run_identifier}")
-           r = requests.get(f"https://api.github.com/repos/karthikbn/deploy-scripts/actions/runs?created=%3E{run_date_filter}",
-             headers = headers)
-           json_data = r.json()
-           runs = r.json()["workflow_runs"]
-           counter = 0
-           while counter == 0:
-               if len(runs) > 0:
-                 for workflow in runs:
+           counter_flag = "false"
+           time.sleep(10)
+           while counter_flag == "":
+             r = requests.get(f"https://api.github.com/repos/karthikbn/deploy-scripts/actions/runs?created=%3E{run_date_filter}",
+                 headers = headers)
+             json_data = r.json()
+             runs = r.json()["workflow_runs"]
+             if len(runs) > 0:
+               for workflow in runs:
                    jobs_url = workflow["jobs_url"]
+                   print(f"get jobs_url {jobs_url}")
                    r = requests.get(jobs_url, headers= headers)
                    jobs = r.json()["jobs"]
                    jobs_count = len(jobs)
+                   completed_job_count = 0
+                   counter_loop = 0
                    if jobs_count > 0:
-                    count = 0
-                    print(f"Total Jobs = {jobs_count}")
-                    while count < jobs_count:
-                        print(f"Current loop count = {count}")
-                        job = jobs[count]
-                        job_name = job["name"]
-                        print(f"Running check for Job : {job_name}")
-                        status = job["status"]
-                        print("------------------")
-                        print(job)
-                        print("------------------")
-                        print(f"get jobs_url {jobs_url}")
-                        print(f"Job Status : {status}")
-                        print("------------------")
-                        if status == 'completed':
-                          print("Inside if loop post completion")
-                          count = count + 1
-                          break
-                        else:
-                          print(f"Waiting for {job_name} Job to complete")
-                          time.sleep(3)
-                        r = requests.get(jobs_url, headers= headers)
-                        jobs = r.json()["jobs"]
-                   else:
-                       print("waiting for jobs to pop up...")
-                       time.sleep(3)
-                 counter = 1
-               else:
-                     print("waiting for workflows to pop up...")
-                     time.sleep(3)
+                     print(f"Total Jobs = {jobs_count}")
+                     while jobs_count > completed_job_count:
+                         print(f"Current loop count = {counter_loop}")
+                         job = jobs[counter_loop]
+                         job_name = job["name"]
+                         print(f"Running check for Job : {job_name}")
+                         status = job["status"]
+                         print("------------------")
+                         print(job)
+                         print(f"Job Status : {status}")
+                         print("------------------")
+                         if status == 'completed':
+                           print("Inside if loop post completion")
+                           count = count + 1
+                           completed_job_count = completed_job_count + 1
+                           break
+                         else:
+                           print(f"Waiting for {job_name} Job to complete")
+                           time.sleep(3)
+                         r = requests.get(jobs_url, headers= headers)
+                         jobs = r.json()["jobs"]
+
+                   if completed_job_count == jobs_count:
+                     counter_flag = "true"
+           print(f"workflow_id: {workflow_id}")
            EOF
      continue-on-error: false
