@@ -104,7 +104,7 @@ jobs:
                    jobs = r.json()["jobs"]
                    if len(jobs) > 0:
                      # we only take the first job, edit this if you need multiple jobs
-                     job = jobs[0]
+                     job = jobs[1]
                      steps = job["steps"]
                      if len(steps) >= 2:
                          second_step = steps[1] # if you have position the run_identifier step at 1st position
