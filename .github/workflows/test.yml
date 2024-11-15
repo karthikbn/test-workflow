@@ -77,7 +77,7 @@ jobs:
            payload = json.dumps({
                "ref": "master",
                "inputs": {
-                   "id": f"[\"{run_identifier}\"]",
+                   "id": f"{run_identifier}",
                    "values": "temp"
                }
            })
