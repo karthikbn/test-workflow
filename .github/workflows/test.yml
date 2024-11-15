@@ -68,8 +68,6 @@ jobs:
                'Content-Type': 'application/json'
            }
 
-           fetch_url = https://api.github.com/repos/karthikbn/deploy-scripts/actions/runs?created
-
            payload = json.dumps({
                "ref": "master",
                "id": run_identifier,
