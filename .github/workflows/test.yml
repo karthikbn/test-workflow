@@ -102,7 +102,7 @@ jobs:
                    print("*******************")
                    print(jobs)
                    print("*******************")
-                   status_list = jobs["status"]
+                   status_list = jobs.json()["status"]
                    print("++++++++++++++++++++++")
                    print(status_list)
                    print("++++++++++++++++++++++")
