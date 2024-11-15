@@ -62,9 +62,8 @@ jobs:
            #to fetch last run
            run_identifier = ''.join(random.choices(string.ascii_uppercase + string.digits, k=15))
            print(run_identifier)
-           workflow_runs = ''
            # filter runs that were created after this date minus 5 minutes
-           delta_time = datetime.timedelta(minutes=5)
+           delta_time = datetime.timedelta(minutes=3)
            run_date_filter = (datetime.datetime.utcnow()-delta_time).strftime("%Y-%m-%dT%H:%M")
 
            url = "https://api.github.com/repos/karthikbn/deploy-scripts/actions/workflows/blank.yml/dispatches"
@@ -86,11 +85,14 @@ jobs:
            response = requests.post(url, headers=headers, data=payload)
            print(f"dispatch workflow status: {response.status_code} | workflow identifier: {run_identifier}")
            workflow_id = ""
-           time.sleep(30)
+           time.sleep(10)
            while workflow_id == "":
              r = requests.get(f"https://api.github.com/repos/karthikbn/deploy-scripts/actions/runs?created=%3E{run_date_filter}",
                  headers = headers)
              json_data = r.json()
+             print(*************)
+             print(json_data)
+             print(*************)
              runs = r.json()["workflow_runs"]
              if len(runs) > 0:
                for workflow in runs:
@@ -112,10 +114,10 @@ jobs:
                          print("waiting for steps to be executed...")
                          time.sleep(3)
                    else:
-                       print("waiting for jobs to popup...")
+                       print("waiting for jobs to pop up...")
                        time.sleep(3)
              else:
-                 print("waiting for workflows to popup...")
+                 print("waiting for workflows to pop up...")
                  time.sleep(3)
            print(f"workflow_id: {workflow_id}")
            EOF
