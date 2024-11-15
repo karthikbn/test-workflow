@@ -114,7 +114,7 @@ jobs:
                         print(f"get jobs_url {jobs_url}")
                         print(f"Job Status :  {status}+")
                         print("------------------")
-                        if status == 'completed' :
+                        if status == 'completed':
                           count = count + 1
                         else:
                           print(f"Waiting for {job_name} Job to complete")
