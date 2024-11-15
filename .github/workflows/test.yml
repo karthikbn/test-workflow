@@ -125,6 +125,5 @@ jobs:
 
                    if completed_job_count == jobs_count:
                      counter_flag = "true"
-           print(f"workflow_id: {workflow_id}")
            EOF
      continue-on-error: false
