@@ -70,5 +70,5 @@ jobs:
            })
 
            requests.post(url, headers=headers, data=payload)
-           
+           EOF
      continue-on-error: false
