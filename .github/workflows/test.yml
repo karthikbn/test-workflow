@@ -99,16 +99,10 @@ jobs:
                    r = requests.get(jobs_url, headers= headers)
 
                    jobs = r.json()["jobs"]
-                   print("*******************")
-                   print(jobs)
-                   print("*******************")
                    if len(jobs) > 0:
                     count = 0
                     for count in range(0,len(jobs)):
                         job = jobs[count]
-                        print("++++++++++++++++")
-                        print(job)
-                        print("++++++++++++++++")
                         job_name = job["name"]
                         status = job["status"]
                         print("------------------")
@@ -117,6 +111,7 @@ jobs:
                         print("------------------")
                         if status == 'completed':
                           count = count + 1
+                          break
                         else:
                           print(f"Waiting for {job_name} Job to complete")
                           time.sleep(3)
