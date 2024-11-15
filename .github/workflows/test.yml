@@ -21,6 +21,7 @@ jobs:
           echo test, and deploy your project.
 
   prepare:
+    needs: [build]
     runs-on: ubuntu-latest
 
     steps:
