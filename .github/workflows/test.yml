@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v3
         with:
           python-version: '3.x'
 
@@ -69,6 +69,6 @@ jobs:
                }
            })
 
-           response = requests.post(url, headers=headers, data=payload)
-           print(response.text)
+           requests.post(url, headers=headers, data=payload)
+           
      continue-on-error: false
