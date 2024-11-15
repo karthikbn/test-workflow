@@ -40,16 +40,16 @@ jobs:
 
   trigger:
      runs-on: ubuntu-latest
+     steps:
+       - name: Trigger Other WorkFlow
+         env:
+          SECRET_TOKEN: ${{ secrets.NITHINTEST }}
+         id: trigger1
+         run: |
+           python - <<EOF
+           import requests
+           import json
+           import os
 
-     - name: Trigger Other WorkFlow
-       env:
-        SECRET_TOKEN: ${{ secrets.NITHINTEST }}
-       id: trigger1
-       run: |
-         python - <<EOF
-         import requests
-         import json
-         import os
-
-         print("Inside python")
-       continue-on-error: false
+           print("Inside python")
+     continue-on-error: false
