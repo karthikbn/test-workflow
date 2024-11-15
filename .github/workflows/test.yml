@@ -98,7 +98,7 @@ jobs:
                    jobs_url = workflow["jobs_url"]
                    print(f"get jobs_url {jobs_url}")
 
-                   r = requests.get(jobs_url, headers= authHeader)
+                   r = requests.get(jobs_url, headers= headers)
 
                    jobs = r.json()["jobs"]
                    if len(jobs) > 0:
