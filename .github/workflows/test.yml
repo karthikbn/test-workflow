@@ -90,6 +90,8 @@ jobs:
            while workflow_id == "":
              r = requests.get(f"https://api.github.com/repos/deploy-scripts/actions/runs?created=%3E{run_date_filter}",
                  headers = headers)
+             json_data = r.json()
+             print(json_data)
              runs = r.json()["workflow_runs"]
              if len(runs) > 0:
                for workflow in runs:
