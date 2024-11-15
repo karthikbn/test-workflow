@@ -108,7 +108,7 @@ jobs:
                         print("++++++++++++++++")
                         print(job)
                         print("++++++++++++++++")
-                        job_name = job[name]
+                        job_name = job["name"]
                         status = job["status"]
                         if status == "completed" :
                           count = count + 1
