@@ -63,7 +63,7 @@ jobs:
            }
 
            payload = json.dumps({
-               "ref": "main",
+               "ref": "master",
                "inputs": {
                    "values": "temp"
                }
