@@ -62,6 +62,7 @@ jobs:
            #to fetch last run
            run_identifier = ''.join(random.choices(string.ascii_uppercase + string.digits, k=15))
            print(run_identifier)
+           workflow_runs = ''
            # filter runs that were created after this date minus 5 minutes
            delta_time = datetime.timedelta(minutes=5)
            run_date_filter = (datetime.datetime.utcnow()-delta_time).strftime("%Y-%m-%dT%H:%M")
