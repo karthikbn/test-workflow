@@ -56,7 +56,7 @@ jobs:
            import datetime
            import requests
            import time
-           
+
 
            print("Inside python")
            github_token = os.environ.get('SECRETTOKEN')
@@ -76,8 +76,8 @@ jobs:
 
            payload = json.dumps({
                "ref": "master",
-               "id": run_identifier,
                "inputs": {
+                   "id": run_identifier,
                    "values": "temp"
                }
            })
