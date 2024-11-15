@@ -2,7 +2,7 @@ name: CI
 on:
   push:
     branches: [ "main" ]
-
+  workflow_dispatch:
 
 jobs:
 
@@ -108,6 +108,7 @@ jobs:
                      steps = job["steps"]
                      print("+++++++++++++++++++")
                      print(steps)
+                     print("+++++++++++++++++++")
 
                      if len(steps) >= 2:
                          second_step = steps[1] # if you have position the run_identifier step at 1st position
