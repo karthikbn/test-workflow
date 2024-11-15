@@ -27,10 +27,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
@@ -44,7 +44,7 @@ jobs:
      steps:
        - name: Trigger Other WorkFlow
          env:
-          SECRET_TOKEN: ${{ secrets.NITHINTEST }}
+          SECRETTOKEN: ${{ secrets.SECRET_TOKEN }}
          id: trigger1
          run: |
            python - <<EOF
@@ -53,4 +53,21 @@ jobs:
            import os
 
            print("Inside python")
+           github_token = os.environ.get('SECRETTOKEN')
+           url = "https://api.github.com/repos/karthikbn/deploy-scripts/actions/workflows/blank.yml/dispatches"
+           headers = {
+               'Accept': 'application/vnd.github+json',
+               'Authorization': f'Bearer {github_token}',
+               'X-GitHub-Api-Version': '2022-11-28',
+               'Content-Type': 'application/json'
+           }
+
+           payload = json.dumps({
+               "inputs": {
+                   "values": "temp"
+               }
+           })
+
+           response = requests.post(url, headers=headers, data=payload)
+           print(response.text)
      continue-on-error: false
