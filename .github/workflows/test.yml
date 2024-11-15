@@ -103,6 +103,7 @@ jobs:
                    print(jobs)
                    print("*******************")
                    if len(jobs) > 0:
+                    count = 0
                     for count in range(0,len(jobs)):
                         job = jobs[count]
                         print("++++++++++++++++")
