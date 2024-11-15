@@ -103,20 +103,15 @@ jobs:
                    print(jobs)
                    print("*******************")
                    if len(jobs) > 0:
-                     # we only take the first job, edit this if you need multiple jobs
-                     job = jobs[0]
-                     steps = job["steps"]
-                     print("+++++++++++++++++++")
-                     print(steps)
-                     print("+++++++++++++++++++")
-
-                     if len(steps) >= 2:
-                         second_step = steps[1] # if you have position the run_identifier step at 1st position
-                         if second_step["name"] == run_identifier:
-                             workflow_id = job["run_id"]
-                     else:
-                         print("waiting for steps to be executed...")
-                         time.sleep(3)
+                    for count in range(0,len(jobs)):
+                        job = jobs[count]
+                        job_name = job[name]
+                        status = job["status"]
+                        if status == "completed" :
+                          count = count + 1
+                        else:
+                          print(f"Waiting for {job_name} Job to complete")
+                          time.sleep(3)
                    else:
                        print("waiting for jobs to pop up...")
                        time.sleep(3)
@@ -124,5 +119,7 @@ jobs:
                  print("waiting for workflows to pop up...")
                  time.sleep(3)
            print(f"workflow_id: {workflow_id}")
+
+
            EOF
      continue-on-error: false
