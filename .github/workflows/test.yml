@@ -57,7 +57,6 @@ jobs:
            import requests
            import time
 
-
            print("Inside python")
            github_token = os.environ.get('SECRETTOKEN')
            #to fetch last run
