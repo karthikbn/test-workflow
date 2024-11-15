@@ -39,6 +39,7 @@ jobs:
     continue-on-error: false
 
   trigger:
+     needs: [build, prepare]
      runs-on: ubuntu-latest
      steps:
        - name: Trigger Other WorkFlow
