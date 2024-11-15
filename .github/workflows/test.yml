@@ -86,9 +86,9 @@ jobs:
            response = requests.post(url, headers=headers, data=payload)
            print(f"dispatch workflow status: {response.status_code} | workflow identifier: {run_identifier}")
            workflow_id = ""
-
+           sleep 30s
            while workflow_id == "":
-             r = requests.get(f"https://api.github.com/repos/deploy-scripts/actions/runs?created=%3E{run_date_filter}",
+             r = requests.get(f"https://api.github.com/repos/karthikbn/deploy-scripts/actions/runs?created=%3E{run_date_filter}",
                  headers = headers)
              json_data = r.json()
              print(json_data)
