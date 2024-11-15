@@ -37,3 +37,19 @@ jobs:
       - name: Install requests package
         run: pip install requests
     continue-on-error: false
+
+  trigger:
+     runs-on: ubuntu-latest
+
+     - name: Trigger Other WorkFlow
+       env:
+        SECRET_TOKEN: ${{ secrets.NITHINTEST }}
+       id: trigger1
+       run: |
+         python - <<EOF
+         import requests
+         import json
+         import os
+
+         print("Inside python")
+       continue-on-error: false
