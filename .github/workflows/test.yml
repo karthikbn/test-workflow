@@ -99,17 +99,22 @@ jobs:
                    r = requests.get(jobs_url, headers= headers)
 
                    jobs = r.json()["jobs"]
-                   if len(jobs) > 0:
+                   jobs_count = len(jobs)
+                   if jobs_count > 0:
                     count = 0
-                    for count in range(0,len(jobs)):
+                    print(f"Total Jobs = {jobs_count}")
+                    while count < jobs_count:
+                        print(f"Current loop count = {count}")
                         job = jobs[count]
                         job_name = job["name"]
+                        print(f"Running check for Job : {job_name}")
                         status = job["status"]
                         print("------------------")
                         print(f"get jobs_url {jobs_url}")
-                        print(f"Job Status :  {status}+")
+                        print(f"Job Status : {status}")
                         print("------------------")
                         if status == 'completed':
+                          print("Inside if loop post completion")
                           count = count + 1
                           break
                         else:
