@@ -70,6 +70,5 @@ jobs:
            })
 
            response = requests.post(url, headers=headers, data=payload)
-           data = response.read()
-           print(data)
+           print(response.text)
      continue-on-error: false
