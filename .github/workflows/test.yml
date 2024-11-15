@@ -19,6 +19,7 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+    continue-on-error: false
 
   prepare:
     needs: [build]
@@ -35,3 +36,4 @@ jobs:
 
       - name: Install requests package
         run: pip install requests
+    continue-on-error: false
