@@ -105,6 +105,9 @@ jobs:
                    if len(jobs) > 0:
                     for count in range(0,len(jobs)):
                         job = jobs[count]
+                        print("++++++++++++++++")
+                        print(job)
+                        print("++++++++++++++++")
                         job_name = job[name]
                         status = job["status"]
                         if status == "completed" :
