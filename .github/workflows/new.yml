@@ -39,12 +39,11 @@ jobs:
     if: ${{ always() }}
     runs-on: ubuntu-latest
     needs: verify
-
+    outputs:
+        current_status: ${{ steps.status.outputs.current_status }}
     steps:
       - name: Check for current status
-        id: status
-        outputs:
-            current_status: ${{ steps.status.outputs.current_status }}
+        id: status        
         run: |
            current_status=`cat ${{ inputs.subscription-id }}.json | jq -r .${{ inputs.subscription-id }}`
            echo "current_status=$current_status" >> $GITHUB_OUTPUT
