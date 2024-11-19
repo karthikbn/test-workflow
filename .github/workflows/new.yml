@@ -43,14 +43,16 @@ jobs:
     steps:
       - name: Check for current status
         id: status
+        outputs:
+            current_status: ${{ steps.status.outputs.current_status }}
         run: |
            current_status=`cat ${{ inputs.subscription-id }}.json | jq -r .${{ inputs.subscription-id }}`
            echo "current_status=$current_status" >> $GITHUB_OUTPUT
 
   Job1_execute:
     runs-on: ubuntu-latest
-    needs: Job1_validate
-    if: ${{ always() && steps.status.outputs.current_status == 'Job1' }}
+    needs: Job1_validate #${{  }}
+    if: ${{ always() && needs.verify.outputs.current_status == 'Job1' }}
     uses: karthikbn/deploy-scripts/.github/workflows/blank.yml@master
     with:
       values: "test"
