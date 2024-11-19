@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  build:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,13 +18,13 @@ jobs:
           repository: karthikbn/deploy-scripts
           ref: master
           token:  ${{ secrets.SECRET_TOKEN }}
-          
+
       - name: Verify Job Status JSON Exit
         id: VerifyJson
         run: |
-          if [ -f "${{ inputs.subscription-id }}.json" ]; then  
-            echo "Job Status Json Already Exist"  
-          else  
+          if [ -f "${{ inputs.subscription-id }}.json" ]; then
+            echo "Job Status Json Already Exist"
+          else
             echo "Subscription Job Status JSON Dos Not exists, creating status JSON !"
             touch test.json
             echo "{ \"${{ inputs.subscription-id }}\" : \"Job1\" }" > ${{ inputs.subscription-id }}.json
@@ -34,3 +34,28 @@ jobs:
             git commit -m "adding Status Job Json"
             git push
           fi
+
+  job1:
+    if: ${{ always() }}
+    needs: verify
+
+    steps:
+      - name: Check for current status
+        id: status
+        run: |
+           current_status=`cat ${{ inputs.subscription-id }}.json | jq -r .${{ inputs.subscription-id }}`
+           echo "current_status=$current_status" >> $GITHUB_OUTPUT
+
+      - name: Job 1 Check And Execute
+        id: job1_check
+        if: ${{ always() && steps.status.outputs.current_status == 'Job1' }}
+        uses: kartikbn/deploy-scripts@blank.yml
+        with:
+          values: "test"
+          subscription-ids: "['${{github.event.inputs.subscription-id}}']"
+
+      - name: Job 1 Update
+        if: ${{ always() && needs.job1_check.result == 'success' }}
+        run: |
+           tmp=$(mktemp)
+           jq '.${{ inputs.subscription-id }} = "Job2"' ${{ inputs.subscription-id }}.json > "$tmp" && mv "$tmp" ${{ inputs.subscription-id }}.json
