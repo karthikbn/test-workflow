@@ -67,7 +67,7 @@ jobs:
   Job1_execute:
     runs-on: ubuntu-latest
     needs: Job1_validate
-    if: ${{ always() && needs.verify.outputs.current_status == 'Job1' }}
+    if: ${{ always() && needs.Job1_validate.outputs.current_status == 'Job1' }}
     steps:
       - name: Trigger Workflow and wait
         uses: convictional/trigger-workflow-and-wait@v1.6.1
