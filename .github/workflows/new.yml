@@ -35,7 +35,7 @@ jobs:
             git push
           fi
 
-  job1:
+  Job1_validate:
     if: ${{ always() }}
     runs-on: ubuntu-latest
     needs: verify
@@ -47,17 +47,22 @@ jobs:
            current_status=`cat ${{ inputs.subscription-id }}.json | jq -r .${{ inputs.subscription-id }}`
            echo "current_status=$current_status" >> $GITHUB_OUTPUT
 
-      - name: Job 1 Check And Execute
-        id: job1_check
-        if: ${{ always() && steps.status.outputs.current_status == 'Job1' }}
-        uses: karthikbn/deploy-scripts@master
-        workflow: blank.yml
-        with:
-          values: "test"
-          subscription-ids: "['${{github.event.inputs.subscription-id}}']"
+  Job1_execute:
+    runs-on: ubuntu-latest
+    needs: Job1_validate
+    if: ${{ always() && steps.status.outputs.current_status == 'Job1' }}
+    uses: karthikbn/deploy-scripts/.github/workflows/blank.yml@master
+    with:
+      values: "test"
+      subscription-ids: "['${{github.event.inputs.subscription-id}}']"
 
+  Job1_update:
+    runs-on: ubuntu-latest
+    needs: Job1_execute
+    if: ${{ always() }}
+    steps:
       - name: Job 1 Update
-        if: ${{ always() && needs.job1_check.result == 'success' }}
+        if: ${{ always() && needs.Job1_execute.result == 'success' }}
         run: |
            tmp=$(mktemp)
            jq '.${{ inputs.subscription-id }} = "Job2"' ${{ inputs.subscription-id }}.json > "$tmp" && mv "$tmp" ${{ inputs.subscription-id }}.json
