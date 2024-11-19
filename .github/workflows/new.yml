@@ -59,7 +59,7 @@ jobs:
       - name: Check for current status
         id: status
         run: |
-           current_status=`cat ${{ inputs.subscription-id }}.json | jq -r .${{ inputs.subscription-id }}`
+           current_status=`cat /home/runner/work/test-workflow/test-workflow/${{ inputs.subscription-id }}.json | jq -r .${{ inputs.subscription-id }}`
            echo "current_status=$current_status" >> $GITHUB_OUTPUT
 
   Job1_execute:
@@ -87,8 +87,13 @@ jobs:
     needs: Job1_execute
     if: ${{ always() }}
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: shared-artifact
+
       - name: Job 1 Update
         if: ${{ always() && needs.Job1_execute.result == 'success' }}
         run: |
            tmp=$(mktemp)
-           jq '.${{ inputs.subscription-id }} = "Job2"' ${{ inputs.subscription-id }}.json > "$tmp" && mv "$tmp" ${{ inputs.subscription-id }}.json
+           jq '.${{ inputs.subscription-id }} = "Job2"' /home/runner/work/test-workflow/test-workflow/${{ inputs.subscription-id }}.json > "$tmp" && mv "$tmp" /home/runner/work/test-workflow/test-workflow/${{ inputs.subscription-id }}.json
