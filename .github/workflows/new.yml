@@ -70,7 +70,7 @@ jobs:
     if: ${{ always() && needs.Job1_validate.outputs.current_status == 'Job1' }}
     steps:
       - name: Trigger Workflow and wait
-        uses: convictional/trigger-workflow-and-wait@v1.6.1
+        uses: convictional/trigger-workflow-and-wait@v1.5.0
         with:
           owner: karthikbn
           repo: deploy-scripts
