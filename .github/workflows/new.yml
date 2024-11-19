@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: shared-artifact
-          path: test-workflow
+          path: test-workflow/
 
 
   Job1_validate:
@@ -54,7 +54,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: shared-artifact
-          
+
       - name: Check for current status
         id: status
         run: |
