@@ -51,6 +51,7 @@ jobs:
         id: job1_check
         if: ${{ always() && steps.status.outputs.current_status == 'Job1' }}
         uses: karthikbn/deploy-scripts@master
+        workflow: blank.yml
         with:
           values: "test"
           subscription-ids: "['${{github.event.inputs.subscription-id}}']"
