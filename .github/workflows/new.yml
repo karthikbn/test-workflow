@@ -75,7 +75,6 @@ jobs:
           owner: karthikbn
           repo: deploy-scripts
           github_token: ${{ secrets.SECRET_TOKEN }}
-          #github_user: github-user
           workflow_file_name: blank.yml
           ref: master
           wait_interval: 10
@@ -83,6 +82,7 @@ jobs:
           propagate_failure: false
           trigger_workflow: true
           wait_workflow: true
+          inputs: '{"values" : "test"}'
 
   Job1_update:
     runs-on: ubuntu-latest
