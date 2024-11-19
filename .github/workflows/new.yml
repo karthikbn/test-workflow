@@ -26,10 +26,9 @@ jobs:
             echo "Job Status Json Already Exist"
           else
             echo "Subscription Job Status JSON Dos Not exists, creating status JSON !"
-            touch test.json
+            echo "{ \"${{ inputs.subscription-id }}\" : \"Job1\" }" > ${{ inputs.subscription-id }}.json
             pwd
             ls -lrta
-            echo "{ \"${{ inputs.subscription-id }}\" : \"Job1\" }" > ${{ inputs.subscription-id }}.json
             git config --global user.email "karthikbn1410@gmail.com"
             git config --global user.name "karthikbn"
             git add .
