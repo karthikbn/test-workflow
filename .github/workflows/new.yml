@@ -1,13 +1,33 @@
 name: CI
 on:
   workflow_dispatch:
+    inputs:
+      subscription-id:
+        description: "The azure subscription ID of the subscription to be onboarded"
+        required: true
+        default: "f9d926e7-345a-4419-8d6e-515cb3a95383"
 
 jobs:
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           repository: karthikbn/deploy-scripts
           ref: master
+          
+      - name: Verify Job Status JSON Exit
+        id: VerifyJson
+        run: |
+          if [ -f "${{ inputs.subscription-id }}.json" ]; then  
+            echo "Job Status Json Already Exist"  
+          else  
+            echo "Subscription Job Status JSON Dos Not exists, creating status JSON !"
+            touch test.json
+            echo "{ \"${{ inputs.subscription-id }}\" : \"Job1\" }" > {{ inputs.subscription-id }}.json
+            git add .
+            git commit -m "adding Status Job Json"
+            git push
+          fi
