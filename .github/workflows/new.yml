@@ -12,12 +12,12 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      #- name: Checkout
-      #  uses: actions/checkout@v4
-      #  with:
-      #    repository: karthikbn/deploy-scripts
-      #    ref: master
-      #    token:  ${{ secrets.SECRET_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: karthikbn/test-workflow
+          ref: master
+          token:  ${{ secrets.SECRET_TOKEN }}
 
       - name: Verify Job Status JSON Exit
         id: VerifyJson
