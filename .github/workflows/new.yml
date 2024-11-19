@@ -109,8 +109,8 @@ jobs:
            jq '.status = "Job2"' ${{ inputs.subscription-id }}.json > "$tmp" && mv "$tmp" ${{ inputs.subscription-id }}.json
            pwd
            ls -lrta
-           cp -rf ${{ inputs.subscription-id }}.json test-workflow/
-           cd test-workflow/
+           cp -rf ${{ inputs.subscription-id }}.json .
+           ls -lrta
            git config --global user.email "karthikbn1410@gmail.com"
            git config --global user.name "karthikbn"
            git add .
