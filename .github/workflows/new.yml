@@ -54,7 +54,7 @@ jobs:
     if: ${{ always() && needs.verify.outputs.current_status == 'Job1' }}
     uses: convictional/trigger-workflow-and-wait@v1.6.1
     with:
-      owner: karthikbn1410
+      owner: karthikbn
       repo: deploy-scripts
       github_token: ${{ secrets.SECRET_TOKEN }}
       #github_user: github-user
