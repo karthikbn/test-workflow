@@ -54,9 +54,9 @@ jobs:
     if: ${{ always() && needs.verify.outputs.current_status == 'Job1' }}
     run: |
           echo "inside"
-    uses: karthikbn/deploy-scripts@master
+    uses: karthikbn/deploy-scripts/.github/workflows/blank.yml@master
     with:
-      workflow: blank.yml
+      #workflow: blank.yml
       token: ${{ steps.generate_token.outputs.token }}
   #    repo: karthikbn/deploy-scripts
   #    ref: master
