@@ -12,12 +12,12 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          repository: karthikbn/deploy-scripts
-          ref: master
-          token:  ${{ secrets.SECRET_TOKEN }}
+      #- name: Checkout
+      #  uses: actions/checkout@v4
+      #  with:
+      #    repository: karthikbn/deploy-scripts
+      #    ref: master
+      #    token:  ${{ secrets.SECRET_TOKEN }}
 
       - name: Verify Job Status JSON Exit
         id: VerifyJson
@@ -53,7 +53,7 @@ jobs:
     needs: Job1_validate
     if: ${{ always() && needs.verify.outputs.current_status == 'Job1' }}
     steps:
-      - name: Trigger Workflow and wait        
+      - name: Trigger Workflow and wait
         uses: convictional/trigger-workflow-and-wait@v1.6.1
         with:
           owner: karthikbn
