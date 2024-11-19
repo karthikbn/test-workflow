@@ -52,19 +52,19 @@ jobs:
     runs-on: ubuntu-latest
     needs: Job1_validate
     if: ${{ always() && needs.verify.outputs.current_status == 'Job1' }}
-    uses: benc-uk/workflow-dispatch@v1
+    uses: convictional/trigger-workflow-and-wait@v1.6.1
     with:
-      workflow: blank.yaml
-      repo: karthikbn/deploy-scripts
-      #inputs: '{ "message": "blah blah", "something": false }'
-      token: ${{ secrets.SECRET_TOKEN }}
-    #uses: peter-evans/repository-dispatch@v2
-  #  with:
-    #  workflow: blank.yml
-    #  token: ${{ secrets.SECRET_TOKEN }}
-  #    repo: karthikbn/deploy-scripts
-  #    ref: master
-  #    inputs: '{ "values": "test" , "subscription-ids": "[\'${{github.event.inputs.subscription-id}}\']"}'
+      owner: karthikbn1410
+      repo: deploy-scripts
+      github_token: ${{ secrets.SECRET_TOKEN }}
+      #github_user: github-user
+      workflow_file_name: blank.yml
+      ref: master
+      wait_interval: 10
+      client_payload: '{}'
+      propagate_failure: false
+      trigger_workflow: true
+      wait_workflow: true
 
   Job1_update:
     runs-on: ubuntu-latest
