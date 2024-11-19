@@ -17,6 +17,7 @@ jobs:
         with:
           repository: karthikbn/deploy-scripts
           ref: master
+          token:  ${{ secrets.SECRET_TOKEN }}
           
       - name: Verify Job Status JSON Exit
         id: VerifyJson
