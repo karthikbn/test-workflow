@@ -52,15 +52,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: Job1_validate
     if: ${{ always() && needs.verify.outputs.current_status == 'Job1' }}
+    run: |
+          echo "inside"
+  #  uses: benc-uk/workflow-dispatch@v1
+  #  with:
+  #    workflow: blank.yml
+  #    token: ${{ steps.generate_token.outputs.token }}
+  #    repo: karthikbn/deploy-scripts
+  #    ref: master
+  #    inputs: '{ "values": "test" , "subscription-ids": "[\'${{github.event.inputs.subscription-id}}\']"}'
 
-    uses: benc-uk/workflow-dispatch@v1
-    with:
-      workflow: blank.yml
-      token: ${{ steps.generate_token.outputs.token }}
-      repo: karthikbn/deploy-scripts
-      ref: master
-      inputs: '{ "values": "test" , "subscription-ids": "[\'${{github.event.inputs.subscription-id}}\']"}'
-    
   Job1_update:
     runs-on: ubuntu-latest
     needs: Job1_execute
