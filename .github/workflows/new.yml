@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: shared-artifact
-          path: /home/runner/work/test-workflow/test-workflow/
+          path: ${{ inputs.subscription-id }}.json
 
 
   Job1_validate:
@@ -59,8 +59,8 @@ jobs:
       - name: Check for current status
         id: status
         run: |
-           cat /home/runner/work/test-workflow/test-workflow/${{ inputs.subscription-id }}.json
-           current_status=`cat /home/runner/work/test-workflow/test-workflow/${{ inputs.subscription-id }}.json | jq -r .status`
+           cat ${{ inputs.subscription-id }}.json
+           current_status=`cat ${{ inputs.subscription-id }}.json | jq -r .status`
            echo "current_status=$current_status"
            echo "current_status=$current_status" >> $GITHUB_OUTPUT
 
@@ -89,6 +89,13 @@ jobs:
     needs: Job1_execute
     if: ${{ always() }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: karthikbn/test-workflow
+          ref: test
+          token:  ${{ secrets.SECRET_TOKEN }}
+
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
@@ -98,8 +105,12 @@ jobs:
         if: ${{ always() && needs.Job1_execute.result == 'success' }}
         run: |
            tmp=$(mktemp)
-           jq '.status = "Job2"' /home/runner/work/test-workflow/test-workflow/${{ inputs.subscription-id }}.json
-           jq '.status = "Job2"' /home/runner/work/test-workflow/test-workflow/${{ inputs.subscription-id }}.json > "$tmp" && mv "$tmp" /home/runner/work/test-workflow/test-workflow/${{ inputs.subscription-id }}.json
+           jq '.status = "Job2"' ${{ inputs.subscription-id }}.json
+           jq '.status = "Job2"' ${{ inputs.subscription-id }}.json > "$tmp" && mv "$tmp" ${{ inputs.subscription-id }}.json
+           pwd
+           ls -lrta
+           cp -rf ${{ inputs.subscription-id }}.json test-workflow/
+           cd test-workflow/
            git config --global user.email "karthikbn1410@gmail.com"
            git config --global user.name "karthikbn"
            git add .
