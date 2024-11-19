@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: karthikbn/test-workflow
-          ref: main
+          ref: test
           token:  ${{ secrets.SECRET_TOKEN }}
 
       - name: Verify Job Status JSON Exit
@@ -36,6 +36,13 @@ jobs:
             git push
           fi
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: shared-artifact
+          path: test-workflow
+
+
   Job1_validate:
     if: ${{ always() }}
     runs-on: ubuntu-latest
@@ -43,6 +50,11 @@ jobs:
     outputs:
         current_status: ${{ steps.status.outputs.current_status }}
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: shared-artifact
+          
       - name: Check for current status
         id: status
         run: |
