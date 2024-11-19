@@ -43,20 +43,24 @@ jobs:
         current_status: ${{ steps.status.outputs.current_status }}
     steps:
       - name: Check for current status
-        id: status        
+        id: status
         run: |
            current_status=`cat ${{ inputs.subscription-id }}.json | jq -r .${{ inputs.subscription-id }}`
            echo "current_status=$current_status" >> $GITHUB_OUTPUT
 
   Job1_execute:
     runs-on: ubuntu-latest
-    needs: Job1_validate #${{  }}
+    needs: Job1_validate
     if: ${{ always() && needs.verify.outputs.current_status == 'Job1' }}
-    uses: karthikbn/deploy-scripts/.github/workflows/blank.yml@master
-    with:
-      values: "test"
-      subscription-ids: "['${{github.event.inputs.subscription-id}}']"
 
+    uses: benc-uk/workflow-dispatch@v1
+    with:
+      workflow: blank.yml
+      token: ${{ steps.generate_token.outputs.token }}
+      repo: karthikbn/deploy-scripts
+      ref: master
+      inputs: '{ "values": "test" , "subscription-ids": "[\'${{github.event.inputs.subscription-id}}\']"}'
+    
   Job1_update:
     runs-on: ubuntu-latest
     needs: Job1_execute
