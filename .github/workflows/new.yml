@@ -59,6 +59,7 @@ jobs:
       - name: Check for current status
         id: status
         run: |
+           cat /home/runner/work/test-workflow/test-workflow/${{ inputs.subscription-id }}.json
            current_status=`cat /home/runner/work/test-workflow/test-workflow/${{ inputs.subscription-id }}.json | jq -r .${{ inputs.subscription-id }}`
            echo "current_status=$current_status" >> $GITHUB_OUTPUT
 
