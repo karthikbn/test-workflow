@@ -50,7 +50,7 @@ jobs:
       - name: Job 1 Check And Execute
         id: job1_check
         if: ${{ always() && steps.status.outputs.current_status == 'Job1' }}
-        uses: karthikbn/deploy-scripts/.github/workflows/blank.yml@master
+        uses: karthikbn/deploy-scripts/.github/workflows/blank.yml
         with:
           values: "test"
           subscription-ids: "['${{github.event.inputs.subscription-id}}']"
